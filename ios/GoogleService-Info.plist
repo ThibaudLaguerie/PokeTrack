@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>646319215576-ovutkakfcelvifvfhg0km2hb23d95g7d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.646319215576-ovutkakfcelvifvfhg0km2hb23d95g7d</string>
+	<key>API_KEY</key>
+	<string>AIzaSyArYv5TsnVz1zvPkLwp7O6BKta4caCM7tU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>646319215576</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.poketrack</string>
+	<key>PROJECT_ID</key>
+	<string>poketrack-8f346</string>
+	<key>STORAGE_BUCKET</key>
+	<string>poketrack-8f346.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:646319215576:ios:84526327d772604324d8ad</string>
+</dict>
+</plist>

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "646319215576",
+    "project_id": "poketrack-8f346",
+    "storage_bucket": "poketrack-8f346.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646319215576:android:0ceda3998efa151624d8ad",
+        "android_client_info": {
+          "package_name": "com.poketrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646319215576-85t2171f9f5vh77it82g07pebngf90gc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.poketrack",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "646319215576-b82uhgi1q79iam3j8v4pq39j41ouun08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEnvCsrgtC237jwRu8_h7fRguUva_46zg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646319215576-b82uhgi1q79iam3j8v4pq39j41ouun08.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "646319215576-ovutkakfcelvifvfhg0km2hb23d95g7d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.poketrack"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
