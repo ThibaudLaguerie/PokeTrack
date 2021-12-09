@@ -1,5 +1,5 @@
+import React from 'react'
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useAuth } from './AuthContext'
 
 type FirestoreContextType = {
@@ -9,15 +9,15 @@ const defaultFirestoreState: FirestoreContextType = {
 
 }
 
-const FirestoreContext = createContext<FirestoreContextType>(defaultFirestoreState)
+const FirestoreContext = React.createContext<FirestoreContextType>(defaultFirestoreState)
 
 export const FirestoreContextProvider: React.FC = ({ children }) => {
-    const [user, setUser] = useState<FirebaseAuthTypes.User | { uid: string | null }>()
+    const [user, setUser] = React.useState<FirebaseAuthTypes.User | { uid: string | null }>()
 
     const auth = useAuth()
 
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (auth.user != undefined) {
             setUser(auth.user)
         }
@@ -35,6 +35,6 @@ export const FirestoreContextProvider: React.FC = ({ children }) => {
 
 
 export const useFirestore = () => {
-    const firestore = useContext(FirestoreContext)
+    const firestore = React.useContext(FirestoreContext)
     return firestore
 }

@@ -65,11 +65,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
                 <View>
                     <Input containerStyle={styles.containerLogsInput} inputContainerStyle={{ borderBottomWidth: 0 }} style={[styles.containerPadding, styles.logsInput]} placeholder="jeanne.dupont@domain.fr" placeholderTextColor={COLORS.lightGrey}
                         label="Identifiant" keyboardType="email-address"
-                        value={username} onChangeText={username => setUsername(username)}
+                        value={username} onChangeText={usernameInput => setUsername(usernameInput)}
                     />
-                    <Input containerStyle={styles.containerLogsInput} inputContainerStyle={{ borderBottomWidth: 0 }} style={[styles.containerPadding, styles.logsInput]} placeholder="Mot de passe" placeholderTextColor={COLORS.lightGrey}
+                    <Input containerStyle={[styles.containerLogsInput]} inputContainerStyle={{ borderBottomWidth: 0 }} style={[styles.containerPadding, styles.logsInput]} placeholder="Mot de passe" placeholderTextColor={COLORS.lightGrey}
                         label="Mot de passe" secureTextEntry
-                        value={password} onChangeText={password => setPassword(password)}
+                        value={password} onChangeText={passwordInput => setPassword(passwordInput)}
                     />
                 </View>
                 <View>

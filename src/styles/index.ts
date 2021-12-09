@@ -6,9 +6,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.black,
         flex: 1,
     },
-    columnContainer: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+    containerFlatList: {
+        flexGrow: 1,
+        backgroundColor: COLORS.black,
+        padding: WINDOW_WIDTH * 0.05
     },
     centerChildren: {
         alignItems: 'center',
@@ -17,13 +18,20 @@ const styles = StyleSheet.create({
     containerPadding: {
         padding: WINDOW_WIDTH * 0.02
     },
-    containerMargin: {
-        margin: WINDOW_WIDTH * 0.01
-    },
     containerLogsInput: {
         width: WINDOW_WIDTH * 0.9,
         alignSelf: 'center',
         borderBottomWidth: 0,
+    },
+    containerShadow: {
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOpacity: 0.5,
+        shadowRadius: WINDOW_WIDTH * 0.01,
+        shadowOffset: {
+            width: 0,
+            height: WINDOW_WIDTH * 0.01
+        }
     },
     stayConnected: {
         flexDirection: 'row',
@@ -49,36 +57,21 @@ const styles = StyleSheet.create({
         marginTop: WINDOW_WIDTH * 0.05,
         fontFamily: 'BAHNSCHRIFT'
     },
-    flatlistText: {
-        fontSize: WINDOW_WIDTH * 0.05,
-        color: COLORS.white,
-        marginLeft: WINDOW_WIDTH * 0.05,
-        paddingBottom: WINDOW_WIDTH * 0.07,
-        fontFamily: 'BAHNSCHRIFT'
-    },
     logo: {
         width: WINDOW_WIDTH * 0.5,
         height: WINDOW_WIDTH * 0.5
-    },
-    bigDivider: {
-        width: WINDOW_WIDTH * 0.9,
-        height: 5,
-        backgroundColor: COLORS.white,
-        alignSelf: 'center',
-        marginVertical: WINDOW_WIDTH * 0.03
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#00A3D8'
     },
     headerText: {
         fontSize: WINDOW_WIDTH * 0.1,
-        fontWeight: 'bold',
         color: COLORS.white,
         textAlignVertical: 'center',
-        fontFamily: 'BAHNSCHRIFT'
+        fontFamily: 'BAHNSCHRIFT',
+        fontWeight: "700"
     },
     title: {
         fontSize: WINDOW_WIDTH * 0.15,
@@ -105,99 +98,71 @@ const styles = StyleSheet.create({
         fontFamily: 'BAHNSCHRIFT'
     },
     drawer: {
-        backgroundColor: '#E4B429',
+        backgroundColor: COLORS.lightGrey,
         width: WINDOW_WIDTH * 0.9
-    },
-    expenseCard: {
-        width: WINDOW_WIDTH * 0.85,
-        backgroundColor: COLORS.white,
-        alignSelf: 'center',
-        flex: 1,
-        borderRadius: 15,
-        margin: WINDOW_WIDTH * 0.02,
-    },
-    expenseTitle: {
-        fontSize: WINDOW_WIDTH * 0.06,
-        fontWeight: 'bold',
-        fontFamily: 'BAHNSCHRIFT'
-    },
-    expenseDate: {
-        fontSize: WINDOW_WIDTH * 0.05,
-        fontFamily: 'BAHNSCHRIFT',
-    },
-    expenseAmount: {
-        fontSize: WINDOW_WIDTH * 0.07,
-        fontWeight: 'bold',
-        color: COLORS.white,
-        fontFamily: 'BAHNSCHRIFT'
-    },
-    swipeComponent: {
-        borderRadius: 15,
-        margin: WINDOW_WIDTH * 0.02,
-        backgroundColor: COLORS.white
-    },
-    swipeItem: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 15,
-        margin: WINDOW_WIDTH * 0.02,
-        width: '80%',
-        height: 100,
-        alignSelf: 'center',
-        marginVertical: 5,
     },
     headerDrawer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: WINDOW_WIDTH * 0.06
     },
     itemDrawer: {
         paddingVertical: WINDOW_WIDTH * 0.02,
         marginHorizontal: WINDOW_WIDTH * 0.02,
-        marginVertical: WINDOW_WIDTH * 0.06
+        marginVertical: WINDOW_WIDTH * 0.03
     },
     borderBottomDrawerItems: {
         borderBottomColor: COLORS.white,
         borderBottomWidth: 5
     },
-    swipeLeftAction: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    swipeActionText: {
-        color: 'white',
-        fontSize: 16,
-        backgroundColor: 'transparent',
-        padding: 10,
-    },
-    swipeRightAction: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    seeAllButton: {
+    pokemonItem: {
+        width: WINDOW_WIDTH * 0.43,
+        height: WINDOW_WIDTH * 0.43,
         borderRadius: 10,
-        backgroundColor: '#00A3D8',
-        alignSelf: 'center',
+        backgroundColor: "#ececec",// COLORS.white,
+        marginBottom: WINDOW_WIDTH * 0.05,
+        padding: WINDOW_WIDTH * 0.03,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    seeAllButtonText: {
+    pokemonSprite: {
+        width: WINDOW_WIDTH * 0.3,
+        height: WINDOW_WIDTH * 0.3
+    },
+    pokemonCard: {
+        marginHorizontal: WINDOW_WIDTH * 0.05,
+        marginTop: WINDOW_WIDTH * 0.05,
+        borderRadius: 15,
+        backgroundColor: "#ececec",
+        paddingVertical: WINDOW_WIDTH * 0.05
+    },
+    back: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: WINDOW_WIDTH * 0.03,
+        marginLeft: WINDOW_WIDTH * 0.03
+    },
+    backTitle: {
         color: COLORS.white,
-        fontSize: WINDOW_WIDTH * 0.05,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    },
-    filterText: {
-        fontSize: WINDOW_WIDTH * 0.08,
-        color: '#00A3D8',
+        fontSize: WINDOW_WIDTH * 0.06,
+        fontWeight: '900',
         fontFamily: 'BAHNSCHRIFT'
     },
-    containerPickerFilter: {
-        margin: WINDOW_WIDTH * 0.03,
+    pokemonSpriteContainer: {
         backgroundColor: COLORS.white,
         borderRadius: 10,
+        marginHorizontal: WINDOW_WIDTH * 0.05,
     },
+    pokemonInformation: {
+        borderRadius: 10,
+        padding: WINDOW_WIDTH * 0.02,
+        marginHorizontal: WINDOW_WIDTH * 0.05,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    pokemonInformationLabel: {
+        fontSize: WINDOW_WIDTH * 0.05,
+        fontWeight: 'bold',
+    }
 })
 export default styles

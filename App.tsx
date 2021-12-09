@@ -10,7 +10,7 @@
 
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerContentComponentProps } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerContentComponentProps, DrawerContent } from '@react-navigation/drawer';
 import { DrawerDescriptorMap, DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types';
 import { NavigationContainer, } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -26,6 +26,8 @@ import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import styles from './src/styles';
 import { COLORS } from './src/utils/constants';
+import PokedexScreen from './src/screens/PokedexScreen';
+import PokemonDetailsScreen from './src/screens/PokemonDetailsScreen';
 
 
 
@@ -51,9 +53,9 @@ const App = () => {
 
   const CustomDrawerContent: React.FC<PropsDrawer> = ({ state, descriptors, navigation }) => {
     return (
-      <DrawerContentScrollView contentContainerStyle={{ flex: 1, justifyContent: 'space-between' }} {...state} {...descriptors} {...navigation}>
-        <View>
-          <HeaderDrawerComponent handleDrawer={() => navigation.toggleDrawer()} />
+      <>
+        <HeaderDrawerComponent handleDrawer={() => navigation.toggleDrawer()} />
+        <DrawerContentScrollView contentContainerStyle={{ flexGrow: 1 }} {...state} {...descriptors} {...navigation}>
           {
             state.routes.map((route, i) => {
               const focused = i === state.index
@@ -66,14 +68,15 @@ const App = () => {
               }} />
             })
           }
-        </View>
+
+        </DrawerContentScrollView>
         <View style={{ backgroundColor: COLORS.black, borderTopColor: COLORS.white, borderTopWidth: 3 }}>
           <DrawerItemCustom title={"Déconnexion"} onPress={async () => {
             await AsyncStorage.multiRemove(['MoneyTrackToken', 'MoneyTrackUserUID', 'MoneyTrackFirstname', 'MoneyTrackLastname'])
             navigation.navigate('Login')
           }} />
         </View>
-      </DrawerContentScrollView>
+      </>
     )
   }
   const DrawerStack = createDrawerNavigator();
@@ -81,10 +84,19 @@ const App = () => {
     return (
       <DrawerStack.Navigator
         drawerContent={props => <CustomDrawerContent {...props} />}
-        screenOptions={{ drawerStyle: styles.drawer }}
+        screenOptions={{ drawerStyle: styles.drawer, headerShown: false }}
       >
-        <DrawerStack.Screen name="Home" component={HomeScreen}
-          options={{ drawerLabel: "Accueil" }} initialParams={{ token: token }}
+        <DrawerStack.Screen name="Home" component={MyPokedexStack}
+          options={{ drawerLabel: "Pokedex" }}
+        />
+        <DrawerStack.Screen name="Account" component={HomeScreen}
+          options={{ drawerLabel: "Mon compte" }}
+        />
+        <DrawerStack.Screen name="Map" component={HomeScreen}
+          options={{ drawerLabel: "Carte" }}
+        />
+        <DrawerStack.Screen name="Market" component={HomeScreen}
+          options={{ drawerLabel: "Marketplace" }}
         />
       </DrawerStack.Navigator>
     )
@@ -98,6 +110,16 @@ const App = () => {
         <AppStack.Screen name="Signup" component={SignupScreen} />
         <AppStack.Screen name="App" component={MyDrawerStack} />
       </AppStack.Navigator>
+    )
+  }
+
+  const PokedexStack = createNativeStackNavigator()
+  const MyPokedexStack = () => {
+    return (
+      <PokedexStack.Navigator initialRouteName="Pokedex" screenOptions={{ headerShown: false }}>
+        <PokedexStack.Screen name="Pokedex" component={PokedexScreen} />
+        <PokedexStack.Screen name="PokemonDetails" component={PokemonDetailsScreen} />
+      </PokedexStack.Navigator>
     )
   }
 

@@ -2,7 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebaseAuth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import React, { createContext, useContext, useEffect } from 'react';
+import React from 'react';
 
 type AuthContextType = {
     isSignedIn: boolean;
@@ -22,7 +22,7 @@ const defaultAuthState: AuthContextType = {
     getUserInfo: async () => undefined
 }
 
-const AuthContext = createContext<AuthContextType>(defaultAuthState)
+const AuthContext = React.createContext<AuthContextType>(defaultAuthState)
 
 export const AuthContextProvider: React.FC = ({ children }) => {
 
@@ -33,7 +33,7 @@ export const AuthContextProvider: React.FC = ({ children }) => {
 
     const usersCollection = firestore().collection('users')
 
-    useEffect(() => {
+    React.useEffect(() => {
         const unsubscribe = firebaseAuth().onAuthStateChanged((_user) => {
             if (_user) {
                 // user is logged in
@@ -108,6 +108,6 @@ export const AuthContextProvider: React.FC = ({ children }) => {
 }
 
 export const useAuth = () => {
-    const auth = useContext(AuthContext)
+    const auth = React.useContext(AuthContext)
     return auth
 }
