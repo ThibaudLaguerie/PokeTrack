@@ -1,5 +1,5 @@
 import { TYPES_COLORS } from './constants';
-import { Ability, HeldItem, Move, MoveBase, Pokemon, PokemonBase, Type, TypeColor } from './types';
+import { Ability, HeldItem, Move, MoveBase, Pokemon, PokemonBase, Type, TypeColor, Card } from './types';
 
 export const toPokemonBase = (data: any) => {
     const pokemonBase: PokemonBase = {
@@ -13,7 +13,7 @@ export const toPokemonBase = (data: any) => {
 export const toPokemon = (data: any) => {
     const pokemon: Pokemon = {
         abilities: data.abilities.map((dataAbility: any) => toAbility(dataAbility)), // talents
-        height: data.height,
+        height: data.height / 10,
         heldItems: data.held_items.map((dataHeldItem: any) => toHeldItem(dataHeldItem)),
         id: data.id,
         level: data.level,
@@ -33,7 +33,7 @@ export const toPokemon = (data: any) => {
         },
         stats: [],
         types: data.types.map((dataType: any) => toType(dataType)),
-        weight: data.weight,
+        weight: data.weight / 10,
     }
 
     return pokemon
@@ -61,6 +61,7 @@ export const toMoveBase = (data: any) => {
 }
 
 export const toMove = (data: any) => {
+
     const move: Move = {
         name: data.name,
         type: data.type.name
@@ -109,4 +110,24 @@ export const useColor = (type: string, gradient: "light" | "normal" | "dark") =>
 
 export const toUpperLabel = (label: string) => {
     return label.slice(0, 1).toUpperCase() + label.slice(1)
+}
+
+export const toCard = (data: any) => {
+    const card: Card = {
+        name: data.name,
+        height: data.height,
+        weight: data.weight,
+        sex: data.sex,
+        sprites: {
+            front: data.sprites.front,
+            back: data.sprites.back
+        },
+        moves: [data.move1, data.move2, data.move3, data.move4],
+        price: data.price,
+        nbGenerated: data.nbGenerated,
+        sold: data.sold,
+        id: data.id
+    }
+
+    return card
 }

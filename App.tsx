@@ -28,6 +28,9 @@ import styles from './src/styles';
 import { COLORS } from './src/utils/constants';
 import PokedexScreen from './src/screens/PokedexScreen';
 import PokemonDetailsScreen from './src/screens/PokemonDetailsScreen';
+import ShopScreen from './src/screens/ShopScreen';
+import AccountScreen from './src/screens/AccountScreen';
+import { AppContextProvider } from './src/contexts/AppContext';
 
 
 
@@ -89,13 +92,13 @@ const App = () => {
         <DrawerStack.Screen name="Home" component={MyPokedexStack}
           options={{ drawerLabel: "Pokedex" }}
         />
-        <DrawerStack.Screen name="Account" component={HomeScreen}
+        <DrawerStack.Screen name="Account" component={AccountScreen}
           options={{ drawerLabel: "Mon compte" }}
         />
         <DrawerStack.Screen name="Map" component={HomeScreen}
           options={{ drawerLabel: "Carte" }}
         />
-        <DrawerStack.Screen name="Market" component={HomeScreen}
+        <DrawerStack.Screen name="Market" component={ShopScreen}
           options={{ drawerLabel: "Marketplace" }}
         />
       </DrawerStack.Navigator>
@@ -129,7 +132,9 @@ const App = () => {
         <NavigationContainer>
           <SafeAreaView style={styles.container}>
             <StatusBar />
-            <MyAppStack />
+            <AppContextProvider>
+              <MyAppStack />
+            </AppContextProvider>
           </SafeAreaView>
         </NavigationContainer>
       </FirestoreContextProvider>

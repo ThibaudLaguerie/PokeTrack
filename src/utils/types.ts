@@ -5,6 +5,8 @@ export type RootStackParamsList = {
     Home: {
         token?: string | null
     },
+    Marketplace: undefined,
+    Account: undefined,
     Pokedex: undefined,
     PokemonDetails: {
         pokemon: Pokemon
@@ -75,4 +77,20 @@ export interface TypeColor {
     light: string,
     normal: string,
     dark: string
+}
+
+export interface Card {
+    name: string,
+    height: number,
+    weight: number,
+    sprites: {
+        front: string,
+        back: string,
+    },
+    sex: string,
+    moves: MoveBase[],
+    price: number,
+    nbGenerated: number,
+    sold: number,
+    id: number,
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import { _getMove } from "../backend";
 import styles from "../styles";
-import { defaultMove } from "../utils/constants";
+import { defaultMove, WINDOW_WIDTH } from "../utils/constants";
 import { toUpperLabel, useColor } from "../utils/functions";
 import { Move, MoveBase } from "../utils/types";
 
@@ -27,7 +27,9 @@ const PokemonMoveComponent: React.FC<Props> = ({ moveBase }) => {
         <>
             {
                 move != undefined &&
-                <View style={[styles.pokemonInformation, { backgroundColor: useColor(move.type, "light"), flex: 1 }]}>
+                <View style={[styles.pokemonInformation, {
+                    backgroundColor: useColor(move.type, "light"), flex: 1, marginHorizontal: WINDOW_WIDTH * 0.02
+                }]}>
                     <Text style={[styles.pokemonInformationLabel, { textAlign: "center" }]}>{toUpperLabel(move.name)}</Text>
                 </View>
             }

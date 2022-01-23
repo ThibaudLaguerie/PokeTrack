@@ -1,8 +1,12 @@
-import { toMove } from './../utils/functions';
+import { toMove, toCard } from './../utils/functions';
 import { PokemonBase } from './../utils/types';
 import { defaultMove, defaultPokemon } from './../utils/constants';
 import { URL_POKEMON_API } from "../utils/constants"
 import { toPokemon, toPokemonBase } from "../utils/functions"
+
+import soapRequest from 'easy-soap-request'
+import X2JS from 'x2js';
+
 
 export const _getPokedex = async (offset: number = 0) => {
     try {
@@ -58,3 +62,64 @@ export const _getMove = async (url: string) => {
     }
 
 }
+
+export const _getSoap = async (pokemonName: string) => {
+
+    try {
+        const url = "http://localhost:8001/Bourse?wsdl"
+        const sampleHeaders = {
+            'Content-Type': 'text/xml;charset=UTF-8',
+            'soapAction': "bourse"
+        }
+
+        const prix = Math.random() * (50 - 1) + 1;
+        const taux = Math.random();
+
+        const xml = `<?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+          <soap:Body>
+            <bourseRequest>
+              <Monnaie>€</Monnaie>
+              <Item>`+ pokemonName + `</Item>
+              <Prix>`+ prix + `</Prix>
+              <Taux>`+ taux + `</Taux>
+            </bourseRequest>
+          </soap:Body>
+        </soap:Envelope>
+        `
+
+        const { response } = await soapRequest({ method: "POST", url: url, headers: sampleHeaders, xml: xml, timeout: 2000 })
+        const { body } = response
+        const x2js = new X2JS()
+        const json: any = x2js.xml2js(body)
+
+        return json.Envelope.Body.bourseRequestResponse.bourseMessage.__text + " " + json.Envelope.Body.bourseRequestResponse.bourseRes.__text
+
+    } catch (error) {
+        console.log("Error", error)
+        return ""
+    }
+
+}
+
+export const _getAllCards = async () => {
+    try {
+        const url = "http://localhost:5001/poketrack-8f346/us-central1/app/api/cards/all"
+        const response = await fetch(url)
+        if (response.status == 200) {
+            const responseJSON = await response.json()
+            const cards = responseJSON.pokemons.map((pokemon: any) => toCard(pokemon))
+            return cards
+        } else {
+            console.log("Bad status => ", response.status)
+            return []
+        }
+
+    } catch (error) {
+        console.log("Error => ", error)
+        return []
+    }
+
+
+
+} 

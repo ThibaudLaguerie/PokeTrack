@@ -1,25 +1,44 @@
 import React from 'react';
+import { _getAllCards } from '../backend';
+import { Card } from '../utils/types';
+import firestore from '@react-native-firebase/firestore';
+import { toCard } from '../utils/functions';
 
 type AppContextType = {
-
+    cards: Card[]
 }
 
 const defaultAppState: AppContextType = {
-    isSignedIn: true,
-    register: async () => undefined,
-    signIn: async () => undefined,
-    signOut: async () => undefined,
-    getUserInfo: async () => undefined
+    cards: []
 }
 
 const AppContext = React.createContext<AppContextType>(defaultAppState)
 
 export const AppContextProvider: React.FC = ({ children }) => {
 
+    const [cards, setCards] = React.useState<Card[]>([])
+
+    const cardsCollection = firestore().collection("cards")
+
+    React.useEffect(() => {
+        getAllCards()
+    }, [])
+
+    const getAllCards = async () => {
+        const subscriber = cardsCollection.onSnapshot((querySnapshot) => {
+            console.log(querySnapshot)
+            const cardsData = querySnapshot.docs.map(card => toCard(card.data()))
+            console.log(cardsData)
+            setCards(cardsData)
+        })
+
+        return () => subscriber()
+    }
+
     return (
         <AppContext.Provider
             value={{
-
+                cards
             }}>
             {children}
         </AppContext.Provider>

@@ -1,17 +1,18 @@
 import React from 'react'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 import { Pokemon, RootStackParamsList, TypeColor } from '../utils/types'
-import { FlatList, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import HeaderComponent from '../components/HeaderComponent'
 import styles from '../styles'
 import { Icon, Image } from 'react-native-elements'
 import BackComponent from '../components/BackComponent'
 import PokemonSpriteComponent from '../components/PokemonSpriteComponent'
 import PokemonTypeComponent from '../components/PokemonTypeComponent'
-import { TYPES_COLORS, WINDOW_WIDTH } from '../utils/constants'
-import { useColor } from '../utils/functions'
+import { COLORS, TYPES_COLORS, WINDOW_WIDTH } from '../utils/constants'
+import { toUpperLabel, useColor } from '../utils/functions'
 import LinearGradient from 'react-native-linear-gradient';
 import PokemonMoveComponent from '../components/PokemonMoveComponent'
+import { _getSoap } from '../backend'
 
 type Props = DrawerScreenProps<RootStackParamsList, "PokemonDetails">
 
@@ -19,9 +20,10 @@ const PokemonDetailsScreen: React.FC<Props> = ({ navigation, route }) => {
 
     const [pokemon, setPokemon] = React.useState<Pokemon>(route.params.pokemon)
 
-    React.useEffect(() => {
-
-    }, [])
+    const _getBourseValue = async () => {
+        const value = await _getSoap(toUpperLabel(pokemon.name))
+        Alert.alert("Valeur en bourse", value)
+    }
 
     return (
         <View style={styles.container}>
@@ -34,7 +36,7 @@ const PokemonDetailsScreen: React.FC<Props> = ({ navigation, route }) => {
                             [pokemon.height, pokemon.weight].map((value, index) => {
                                 return (
                                     <View key={value} style={[styles.pokemonInformation, { backgroundColor: useColor(pokemon.types[0].name, "light"), }]}>
-                                        <Text style={styles.pokemonInformationLabel}>{index == 0 ? "Taille : " : "Poids : "} {value} {index == 0 ? "cm" : "g"}</Text>
+                                        <Text style={styles.pokemonInformationLabel}>{index == 0 ? "Taille : " : "Poids : "} {value} {index == 0 ? "m" : "kg"}</Text>
                                     </View>
                                 )
                             })
@@ -57,9 +59,15 @@ const PokemonDetailsScreen: React.FC<Props> = ({ navigation, route }) => {
                     keyExtractor={(item) => item.name + "_" + item.levelLearnedAt}
                     renderItem={({ item }) => <PokemonMoveComponent moveBase={item} />}
                     numColumns={2}
-                    columnWrapperStyle={{  margin: 10 }}
+                    columnWrapperStyle={{ marginVertical: 5, marginHorizontal: 2 }}
+                    showsVerticalScrollIndicator={false}
                 />
             </LinearGradient>
+            <TouchableOpacity
+                onPress={() => _getBourseValue()}
+                style={[styles.containerPadding, styles.logsButton, { backgroundColor: useColor(pokemon.types[0].name, "light"), width: "90%", marginVertical: 10 }]}>
+                <Text style={[styles.logsButtonText, { fontWeight: "bold" }]}>Evaluer la valeur en bourse</Text>
+            </TouchableOpacity>
         </View >
     )
 }

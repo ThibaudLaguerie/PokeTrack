@@ -31,7 +31,7 @@ const PokedexScreen: React.FC<Props> = ({ navigation, route }) => {
             <FlatList
                 data={pokemons}
                 renderItem={({ item }) => <PokemonComponent pokemonBase={item} navigation={navigation} />}
-                keyExtractor={(item) => item.url}
+                keyExtractor={(item, index) => item.url + index.toString()}
                 numColumns={2}
                 contentContainerStyle={styles.containerFlatList}
                 bounces={false}
