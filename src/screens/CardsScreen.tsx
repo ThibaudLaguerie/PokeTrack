@@ -20,8 +20,9 @@ const CardsScreen: React.FC<Props> = ({ navigation }) => {
                 data={app.userCards}
                 keyExtractor={(item) => item.uid}
                 bounces={false}
-                renderItem={({ item }) => <PokemonCardItem key={item.uid} pokemonCard={item} />}
-            
+                renderItem={({ item }) => <PokemonCardItem key={item.uid} pokemonCard={item} isUserCard={true} />}
+                initialNumToRender={10}
+                maxToRenderPerBatch={10}
             />
         </View>
     )

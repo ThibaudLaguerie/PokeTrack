@@ -22,8 +22,10 @@ const ShopScreen: React.FC<Props> = ({ navigation, route }) => {
                 keyExtractor={(item, index) => item.uid}
                 
                 bounces={false}
-                renderItem={({ item }) => <PokemonCardItem key={item.uid} pokemonCard={item} />}
-            />
+                renderItem={({ item }) => <PokemonCardItem key={item.uid} pokemonCard={item} isUserCard={false} />}
+                initialNumToRender={10}
+                maxToRenderPerBatch={10}
+                />
         </View>
     )
 }

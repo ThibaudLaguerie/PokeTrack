@@ -35,7 +35,7 @@ const PokemonDetailsScreen: React.FC<Props> = ({ navigation, route }) => {
                         {
                             [pokemon.height, pokemon.weight].map((value, index) => {
                                 return (
-                                    <View key={value} style={[styles.pokemonInformation, { backgroundColor: useColor(pokemon.types[0].name, "light"), }]}>
+                                    <View key={index == 0 ? "height" : "weight"} style={[styles.pokemonInformation, { backgroundColor: useColor(pokemon.types[0].name, "light"), }]}>
                                         <Text style={styles.pokemonInformationLabel}>{index == 0 ? "Taille : " : "Poids : "} {value} {index == 0 ? "m" : "kg"}</Text>
                                     </View>
                                 )

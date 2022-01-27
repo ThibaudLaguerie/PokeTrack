@@ -130,8 +130,6 @@ const styles = StyleSheet.create({
         height: WINDOW_WIDTH * 0.3
     },
     pokemonCard: {
-        marginHorizontal: WINDOW_WIDTH * 0.05,
-        marginTop: WINDOW_WIDTH * 0.05,
         borderRadius: 15,
         backgroundColor: "#ececec",
         paddingVertical: WINDOW_WIDTH * 0.05
@@ -163,6 +161,15 @@ const styles = StyleSheet.create({
     pokemonInformationLabel: {
         fontSize: WINDOW_WIDTH * 0.05,
         fontWeight: 'bold',
-    }
+    },
+    inputCountCard: {
+        width: WINDOW_WIDTH * 0.4,
+        backgroundColor: COLORS.white,
+        borderRadius: 15,
+        fontSize: WINDOW_WIDTH * 0.07,
+        textAlign: 'center',
+        color: COLORS.darkGrey,
+        fontFamily: 'BAHNSCHRIFT'
+    },
 })
 export default styles

@@ -10,8 +10,8 @@ import { Alert } from 'react-native';
 type AppContextType = {
     cards: Card[],
     userCards: Card[],
-    userCardIds: string[],
-    buyCard: (cardId: string, price: number) => Promise<void>
+    userCardIds: { uid: string, count: number }[],
+    buyCard: (cardId: string, price: number, count: number) => Promise<void>
 }
 
 const defaultAppState: AppContextType = {
@@ -26,7 +26,7 @@ const AppContext = React.createContext<AppContextType>(defaultAppState)
 export const AppContextProvider: React.FC = ({ children }) => {
 
     const [cards, setCards] = React.useState<Card[]>([])
-    const [userCardIds, setUserCardIds] = React.useState<string[]>([])
+    const [userCardIds, setUserCardIds] = React.useState<{ uid: string, count: number }[]>([])
     const [userCards, setUserCards] = React.useState<Card[]>([])
 
     const cardsCollection = firestore().collection("cards")
@@ -52,7 +52,6 @@ export const AppContextProvider: React.FC = ({ children }) => {
     const getAllCards = async () => {
         const subscriber = cardsCollection.onSnapshot((querySnapshot) => {
             const cardsData = querySnapshot.docs.map(card => toCard(card.data(), card.id))
-            console.log(cardsData.length)
             setCards(cardsData)
         })
 
@@ -64,8 +63,7 @@ export const AppContextProvider: React.FC = ({ children }) => {
             .onSnapshot((documentSnapshot) => {
                 const userData = documentSnapshot.data()
 
-                const userCards: string[] = userData?.cards.map((cardId: string) => cardId)
-                console.log("USER CARDS", userCards)
+                const userCards: { uid: string, count: number }[] = userData?.cards.map((cardId: string) => cardId)
                 setUserCardIds(userCards)
             })
 
@@ -74,8 +72,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
 
     const getUserCards = () => {
         const tempUserCards: Card[] = []
-        userCardIds.map(async (cardId) => {
-            const card = await getCard(cardId)
+        userCardIds.map(async (cardTmp) => {
+            const card = await getCard(cardTmp.uid)
             if (card != false) {
                 tempUserCards.push(card)
             }
@@ -96,7 +94,6 @@ export const AppContextProvider: React.FC = ({ children }) => {
             if (response.status == 200) {
                 const responseJSON = await response.json()
                 const card = toCard(responseJSON.card, cardId)
-                console.log("Card reached => ", card)
                 return card
             } else {
                 console.log("erreur response status")
@@ -108,7 +105,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
         }
     }
 
-    const buyCard = async (cardId: string, price: number) => {
+    const buyCard = async (cardId: string, price: number, count: number) => {
+        console.log(auth.userInfo?.solde)
         try {
             const url = URL_BACKEND + "/api/cards/shop"
             const response = await fetch(url, {
@@ -120,12 +118,14 @@ export const AppContextProvider: React.FC = ({ children }) => {
                     userId: auth.user?.uid,
                     cardId,
                     price,
-                    soldeUser: auth.userInfo?.solde
+                    soldeUser: auth.userInfo?.solde,
+                    count
                 })
             })
             if (response.status == 200) {
                 const responseJSON = await response.json()
                 if (responseJSON.code == 1) {
+                    auth.updateSolde(auth.userInfo?.solde! - (price * count))
                     Alert.alert("La carte a bien été acheté ! Félicitations !")
                 } else {
                     Alert.alert("La carte n'a pas pu être acheté ! Votre solde n'est pas suffisant !")

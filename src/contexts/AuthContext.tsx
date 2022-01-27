@@ -11,7 +11,8 @@ type AuthContextType = {
     register: (email: string, password: string, firstname: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
     signOut: () => Promise<void>;
-    getUserInfo: () => void
+    getUserInfo: () => void,
+    updateSolde: (newSolde: number) => void
 }
 
 const defaultAuthState: AuthContextType = {
@@ -19,7 +20,8 @@ const defaultAuthState: AuthContextType = {
     register: async () => undefined,
     signIn: async () => undefined,
     signOut: async () => undefined,
-    getUserInfo: async () => undefined
+    getUserInfo: async () => undefined,
+    updateSolde: () => undefined
 }
 
 const AuthContext = React.createContext<AuthContextType>(defaultAuthState)
@@ -53,10 +55,6 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         return unsubscribe
     }, [])
 
-    React.useEffect(() => {
-        console.log("AUTH STATE CHANGED", auth)
-    }, [auth])
-
     const register = async (email: string, password: string, firstname: string) => {
         const register = await firebaseAuth().createUserWithEmailAndPassword(email, password)
         usersCollection.doc(register.user.uid).get()
@@ -77,7 +75,6 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         usersCollection.doc(signIn.user.uid).get()
             .then(async (documentSnapshot) => {
                 const data = documentSnapshot.data()
-                console.log(data)
                 setUserInfo({ firstname: data?.firstname, solde: data?.solde })
 
                 await AsyncStorage.setItem('PokeTrackUserUID', signIn.user.uid)
@@ -101,6 +98,10 @@ export const AuthContextProvider: React.FC = ({ children }) => {
         setUserInfo({ firstname, solde: parseInt(solde!) })
     }
 
+    const updateSolde = (newSolde: number) => {
+        setUserInfo({ firstname: userInfo.firstname, solde: newSolde})
+    }
+
     return (
         <AuthContext.Provider
             value={{
@@ -110,7 +111,8 @@ export const AuthContextProvider: React.FC = ({ children }) => {
                 register,
                 signIn,
                 signOut,
-                getUserInfo
+                getUserInfo,
+                updateSolde
             }}>
             {children}
         </AuthContext.Provider>
