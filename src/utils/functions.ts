@@ -90,7 +90,7 @@ export const toType = (data: any) => {
 }
 
 export const useColor = (type: string, gradient: "light" | "normal" | "dark") => {
-    let color = ""
+    let color = "#fff"
     switch (gradient) {
         case "light":
             color = TYPES_COLORS[type as keyof { [key: string]: TypeColor }].light
@@ -112,8 +112,9 @@ export const toUpperLabel = (label: string) => {
     return label.slice(0, 1).toUpperCase() + label.slice(1)
 }
 
-export const toCard = (data: any) => {
+export const toCard = (data: any, id: string) => {
     const card: Card = {
+        uid: id,
         name: data.name,
         height: data.height,
         weight: data.weight,
@@ -127,6 +128,10 @@ export const toCard = (data: any) => {
         nbGenerated: data.nbGenerated,
         sold: data.sold,
         id: data.id
+    }
+    
+    if(card.moves[0].name == "no-move") {
+        card.moves = []
     }
 
     return card

@@ -19,10 +19,10 @@ const ShopScreen: React.FC<Props> = ({ navigation, route }) => {
             <HeaderComponent title="Marketplace" handleDrawer={() => navigation.toggleDrawer()} />
             <FlatList
                 data={app.cards}
-                keyExtractor={(item, index) => item.name + "_" + index.toString()}
+                keyExtractor={(item, index) => item.uid}
                 
                 bounces={false}
-                renderItem={({ item }) => <PokemonCardItem pokemonCard={item} />}
+                renderItem={({ item }) => <PokemonCardItem key={item.uid} pokemonCard={item} />}
             />
         </View>
     )

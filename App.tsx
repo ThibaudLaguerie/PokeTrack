@@ -16,12 +16,9 @@ import { NavigationContainer, } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CommonActions, DrawerActions, DrawerNavigationState, ParamListBase } from '@react-navigation/routers';
 import { SafeAreaView, StatusBar, View } from 'react-native';
-import { Icon } from 'react-native-elements';
-import { AuthContextProvider } from './src/contexts/AuthContext';
-import { FirestoreContextProvider } from './src/contexts/FirestoreContext';
+import { AuthContextProvider, useAuth } from './src/contexts/AuthContext';
 import HeaderDrawerComponent from './src/components/HeaderDrawerComponent';
 import DrawerItemCustom from './src/components/DrawerItemCustom';
-import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import styles from './src/styles';
@@ -31,6 +28,7 @@ import PokemonDetailsScreen from './src/screens/PokemonDetailsScreen';
 import ShopScreen from './src/screens/ShopScreen';
 import AccountScreen from './src/screens/AccountScreen';
 import { AppContextProvider } from './src/contexts/AppContext';
+import CardsScreen from './src/screens/CardsScreen';
 
 
 
@@ -55,6 +53,8 @@ const App = () => {
   };
 
   const CustomDrawerContent: React.FC<PropsDrawer> = ({ state, descriptors, navigation }) => {
+
+    const auth = useAuth()
     return (
       <>
         <HeaderDrawerComponent handleDrawer={() => navigation.toggleDrawer()} />
@@ -75,7 +75,8 @@ const App = () => {
         </DrawerContentScrollView>
         <View style={{ backgroundColor: COLORS.black, borderTopColor: COLORS.white, borderTopWidth: 3 }}>
           <DrawerItemCustom title={"Déconnexion"} onPress={async () => {
-            await AsyncStorage.multiRemove(['MoneyTrackToken', 'MoneyTrackUserUID', 'MoneyTrackFirstname', 'MoneyTrackLastname'])
+            await AsyncStorage.multiRemove(['PokeTrackToken', 'PokeTrackUserUID', 'PokeTrackFirstname', 'PokeTrackSolde'])
+            auth.signOut()
             navigation.navigate('Login')
           }} />
         </View>
@@ -95,8 +96,8 @@ const App = () => {
         <DrawerStack.Screen name="Account" component={AccountScreen}
           options={{ drawerLabel: "Mon compte" }}
         />
-        <DrawerStack.Screen name="Map" component={HomeScreen}
-          options={{ drawerLabel: "Carte" }}
+        <DrawerStack.Screen name="Cards" component={CardsScreen}
+          options={{ drawerLabel: "Mes cartes" }}
         />
         <DrawerStack.Screen name="Market" component={ShopScreen}
           options={{ drawerLabel: "Marketplace" }}
@@ -128,7 +129,6 @@ const App = () => {
 
   return (
     <AuthContextProvider>
-      <FirestoreContextProvider>
         <NavigationContainer>
           <SafeAreaView style={styles.container}>
             <StatusBar />
@@ -137,7 +137,6 @@ const App = () => {
             </AppContextProvider>
           </SafeAreaView>
         </NavigationContainer>
-      </FirestoreContextProvider>
     </AuthContextProvider>
   );
 };

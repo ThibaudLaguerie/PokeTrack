@@ -4,7 +4,6 @@ import styles from '../styles';
 import { Input } from 'react-native-elements';
 import { useAuth } from '../contexts/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFirestore } from '../contexts/FirestoreContext';
 import { RootStackParamsList } from '../utils/types';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { COLORS } from '../utils/constants';

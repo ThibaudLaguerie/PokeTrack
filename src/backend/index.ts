@@ -104,16 +104,16 @@ export const _getSoap = async (pokemonName: string) => {
 
 export const _getAllCards = async () => {
     try {
-        const url = "http://localhost:5001/poketrack-8f346/us-central1/app/api/cards/all"
-        const response = await fetch(url)
-        if (response.status == 200) {
-            const responseJSON = await response.json()
-            const cards = responseJSON.pokemons.map((pokemon: any) => toCard(pokemon))
-            return cards
-        } else {
-            console.log("Bad status => ", response.status)
-            return []
-        }
+        // const url = "http://localhost:5001/poketrack-8f346/us-central1/app/api/cards/all"
+        // const response = await fetch(url)
+        // if (response.status == 200) {
+        //     const responseJSON = await response.json()
+        //     const cards = responseJSON.pokemons.map((pokemon: any) => toCard(pokemon))
+        //     return cards
+        // } else {
+        //     console.log("Bad status => ", response.status)
+        //     return []
+        // }
 
     } catch (error) {
         console.log("Error => ", error)

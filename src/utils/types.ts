@@ -11,6 +11,7 @@ export type RootStackParamsList = {
     PokemonDetails: {
         pokemon: Pokemon
     },
+    Cards: undefined
 }
 
 export interface PokemonBase {
@@ -80,6 +81,7 @@ export interface TypeColor {
 }
 
 export interface Card {
+    uid: string,
     name: string,
     height: number,
     weight: number,

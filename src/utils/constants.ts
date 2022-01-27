@@ -9,6 +9,9 @@ export const COLORS = {
     black: "#202020"
 }
 export const URL_POKEMON_API = "https://pokeapi.co/api/v2"
+
+export const URL_BACKEND = "https://us-central1-poketrack-8f346.cloudfunctions.net/app"
+
 export const WINDOW_WIDTH = Dimensions.get('window').width
 
 export const defaultPokemon: Pokemon = {

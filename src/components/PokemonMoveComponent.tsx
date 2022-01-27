@@ -30,7 +30,7 @@ const PokemonMoveComponent: React.FC<Props> = ({ moveBase }) => {
                 <View style={[styles.pokemonInformation, {
                     backgroundColor: useColor(move.type, "light"), flex: 1, marginHorizontal: WINDOW_WIDTH * 0.02
                 }]}>
-                    <Text style={[styles.pokemonInformationLabel, { textAlign: "center" }]}>{toUpperLabel(move.name)}</Text>
+                    <Text numberOfLines={1} style={[styles.pokemonInformationLabel, { textAlign: "center" }]}>{toUpperLabel(move.name)}</Text>
                 </View>
             }
         </>
