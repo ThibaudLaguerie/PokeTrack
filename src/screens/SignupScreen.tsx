@@ -13,7 +13,7 @@ type Props = NativeStackScreenProps<RootStackParamsList, 'Signup'>
 
 const SignupScreen: React.FC<Props> = ({ navigation }) => {
     const [firstname, setFirstname] = React.useState<string>('')
-    const [username, setUsername] = React.useState<string>('')
+    const [email, setEmail] = React.useState<string>('b4.mobileapp@gmail.com')
     const [password, setPassword] = React.useState<string>('')
     const [switched, setSwitched] = React.useState<boolean>(false)
 
@@ -31,13 +31,13 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
 
     const reset = () => {
         setFirstname('')
-        setUsername('')
+        setEmail('')
         setPassword('')
     }
 
     const signup = async () => {
         try {
-            await auth.register(username, password, firstname)
+            await auth.register(email, password, firstname)
             Alert.alert("Votre espace personnalisé a été créée", "Nous vous souhaitons la bienvenue dans la MoneyTrack Family, en espérant vous être utile dans vos finances.", [
                 {
                     text: 'Super !',
@@ -70,15 +70,15 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
                 <View>
                     <Input containerStyle={styles.containerLogsInput} inputContainerStyle={{ borderBottomWidth: 0 }} style={[styles.containerPadding, styles.logsInput]}
                         label="Prénom"
-                        value={firstname} onChangeText={firstname => setFirstname(firstname)}
+                        value={firstname} onChangeText={setFirstname}
                     />
                     <Input containerStyle={styles.containerLogsInput} inputContainerStyle={{ borderBottomWidth: 0 }} style={[styles.containerPadding, styles.logsInput]}
-                        label="Identifiant" keyboardType='email-address'
-                        value={username} onChangeText={username => setUsername(username)}
+                        label="Adresse e-mail" keyboardType='email-address'
+                        value={email} onChangeText={setEmail}
                     />
                     <Input containerStyle={styles.containerLogsInput} inputContainerStyle={{ borderBottomWidth: 0 }} style={[styles.containerPadding, styles.logsInput]}
                         label="Mot de passe" secureTextEntry
-                        value={password} onChangeText={password => setPassword(password)}
+                        value={password} onChangeText={setPassword}
                     />
                 </View>
                 <View>

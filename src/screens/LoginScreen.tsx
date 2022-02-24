@@ -12,7 +12,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 type Props = NativeStackScreenProps<RootStackParamsList, 'Login'>
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-    const [username, setUsername] = React.useState<string>('tib@gmail.com')
+    const [username, setUsername] = React.useState<string>('b4.mobileapp@gmail.com')
     const [password, setPassword] = React.useState<string>('password')
     const [switched, setSwitched] = React.useState<boolean>(false)
 

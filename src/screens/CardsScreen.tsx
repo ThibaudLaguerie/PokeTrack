@@ -15,7 +15,7 @@ const CardsScreen: React.FC<Props> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <HeaderComponent title="Mon compte" handleDrawer={() => navigation.toggleDrawer()} />
+            <HeaderComponent title="Mes cartes" handleDrawer={() => navigation.toggleDrawer()} />
             <FlatList 
                 data={app.userCards}
                 keyExtractor={(item) => item.uid}

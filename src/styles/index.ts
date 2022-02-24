@@ -132,7 +132,9 @@ const styles = StyleSheet.create({
     pokemonCard: {
         borderRadius: 15,
         backgroundColor: "#ececec",
-        paddingVertical: WINDOW_WIDTH * 0.05
+        paddingVertical: WINDOW_WIDTH * 0.05,
+        marginHorizontal: WINDOW_WIDTH * 0.05,
+        marginTop: WINDOW_WIDTH * 0.05
     },
     back: {
         flexDirection: 'row',

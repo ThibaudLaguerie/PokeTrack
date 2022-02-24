@@ -2,7 +2,7 @@ import React from 'react';
 import { _getAllCards } from '../backend';
 import { Card } from '../utils/types';
 import firestore from '@react-native-firebase/firestore';
-import { toCard } from '../utils/functions';
+import { toCard, toUpperLabel } from '../utils/functions';
 import { URL_BACKEND } from '../utils/constants';
 import { useAuth } from './AuthContext';
 import { Alert } from 'react-native';
@@ -12,13 +12,15 @@ type AppContextType = {
     userCards: Card[],
     userCardIds: { uid: string, count: number }[],
     buyCard: (cardId: string, price: number, count: number) => Promise<void>
+    getStockExchangeValue: (id: number) => Promise<number>
 }
 
 const defaultAppState: AppContextType = {
     cards: [],
     userCards: [],
     userCardIds: [],
-    buyCard: async () => undefined
+    buyCard: async () => undefined,
+    getStockExchangeValue: async () => 0
 }
 
 const AppContext = React.createContext<AppContextType>(defaultAppState)
@@ -40,6 +42,9 @@ export const AppContextProvider: React.FC = ({ children }) => {
     React.useEffect(() => {
         if (auth.user != null) {
             getUserCardIds()
+        } else if (auth.user == undefined) {
+            setUserCardIds([])
+            setUserCards([])
         }
     }, [auth.user])
 
@@ -64,7 +69,11 @@ export const AppContextProvider: React.FC = ({ children }) => {
                 const userData = documentSnapshot.data()
 
                 const userCards: { uid: string, count: number }[] = userData?.cards.map((cardId: string) => cardId)
-                setUserCardIds(userCards)
+                if (userCards != undefined) {
+                    setUserCardIds(userCards)
+                } else {
+                    setUserCardIds([])
+                }
             })
 
         return () => subscriber()
@@ -126,10 +135,53 @@ export const AppContextProvider: React.FC = ({ children }) => {
                 const responseJSON = await response.json()
                 if (responseJSON.code == 1) {
                     auth.updateSolde(auth.userInfo?.solde! - (price * count))
+
+                    await sendMail(cards.find((card) => card.uid == cardId)?.name!, count)
                     Alert.alert("La carte a bien été acheté ! Félicitations !")
                 } else {
                     Alert.alert("La carte n'a pas pu être acheté ! Votre solde n'est pas suffisant !")
                 }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const sendMail = async (cardName: string, count: number) => {
+        try {
+            const url = "http://localhost:4444/api/v1/mail/send"
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    to: [auth.userInfo?.email],
+                    subject: "Achat de cartes",
+                    message: "Nous vous félicitons pour votre achat de la carte " + toUpperLabel(cardName) + " ! Vous en possédez " + count
+                })
+            })
+        } catch (error) {
+
+        }
+    }
+
+    const getStockExchangeValue = async (id: number) => {
+        try {
+            const url = URL_BACKEND + "/api/cards/stockexchange/value/" + id
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+
+            if (response.status == 200) {
+                const responseJSON = await response.json()
+                console.log(responseJSON)
+                return responseJSON.value
+            } else {
+                Alert.alert("Aucune carte n'a été générée pour ce pokémon !")
             }
         } catch (error) {
             console.log(error)
@@ -142,7 +194,8 @@ export const AppContextProvider: React.FC = ({ children }) => {
                 cards,
                 userCards,
                 userCardIds,
-                buyCard
+                buyCard,
+                getStockExchangeValue
             }}>
             {children}
         </AppContext.Provider>

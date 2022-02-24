@@ -12,23 +12,30 @@ import { COLORS, TYPES_COLORS, WINDOW_WIDTH } from '../utils/constants'
 import { toUpperLabel, useColor } from '../utils/functions'
 import LinearGradient from 'react-native-linear-gradient';
 import PokemonMoveComponent from '../components/PokemonMoveComponent'
-import { _getSoap } from '../backend'
+import { useApp } from '../contexts/AppContext'
+import StockExchangeOverlayComponent from '../components/StockExchangeOverlayComponent'
 
 type Props = DrawerScreenProps<RootStackParamsList, "PokemonDetails">
 
 const PokemonDetailsScreen: React.FC<Props> = ({ navigation, route }) => {
 
     const [pokemon, setPokemon] = React.useState<Pokemon>(route.params.pokemon)
+    const [stockExchangeValue, setStockExchangeValue] = React.useState<number>(0)
+    const [showOverlay, setShowOverlay] = React.useState<boolean>(false)
+    const app = useApp();
 
     const _getBourseValue = async () => {
-        const value = await _getSoap(toUpperLabel(pokemon.name))
-        Alert.alert("Valeur en bourse", value)
+        console.log(pokemon.id)
+        const value = await app.getStockExchangeValue(pokemon.id)
+        setShowOverlay(true)
+        setStockExchangeValue(value)
     }
 
     return (
         <View style={styles.container}>
             <HeaderComponent title={pokemon.name} handleDrawer={() => navigation.toggleDrawer()} pokemonType={pokemon.types[0].name} />
             <BackComponent navigation={navigation} />
+            <StockExchangeOverlayComponent value={stockExchangeValue} show={showOverlay} pokemonType={pokemon.types[0].name} handleDismiss={() => setShowOverlay(false)} />
             <View style={[styles.pokemonCard, styles.containerShadow]}>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={{ flex: 1, justifyContent: 'space-around', }}>
